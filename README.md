@@ -47,6 +47,12 @@ git clone https://github.com/Doggi/microsoft365.remote-phone-book.git
 cd microsoft365.remote-phone-book
 ```
 
+3. Install dependencies
+
+```bash
+npm install
+```
+
 ### Register the application by Microsoft 365
 
 first you need to register an application by Microsoft 365 to get the following authentication informations
