@@ -1,12 +1,12 @@
 module.exports = {
     apps: [
         {
-            name: "remotePhoneBookSync",
+            name: "microsoft365RemotePhoneBookSync",
             script: "npm run start:prod",
             watch: ["config"],
         },
         {
-            name: "remotePhoneBookServer",
+            name: "microsoft365RemotePhoneBookServer",
             script: "npm run server:file",
         },
     ],
