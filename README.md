@@ -138,7 +138,7 @@ The best way to start both, app and file server, is to use pm2. In this reposito
 1. install pm2 global
 
 ```bash
-sudo npm install -g pm2
+sudo npm install -location=global pm2
 ```
 
 2. start the app and file server
@@ -167,9 +167,15 @@ and if you are a _nerd_ use this command ;)
 pm2 monit
 ```
 
+### access Remote phone books
+
+The File server will be avaiable under the port 8080, so you can open the url for example http://localhost:8080 in your browser. Now you should see all defined phone books.
+
+Last step is to config you IP Phones with the remote phone books.
+
 Enjoy
 
-## License
+### License
 
 MIT License
 
