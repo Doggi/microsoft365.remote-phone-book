@@ -4,6 +4,7 @@ import axios from "axios";
 import { writeFileSync } from "fs";
 import moment from "moment";
 import { Client } from "./client/Client";
+import { Contact } from "./client/Contact";
 import { YealinkPhoneBook } from "./phonebook/yealink/YealinkPhoneBook";
 
 export class Main {
@@ -30,7 +31,7 @@ export class Main {
                 const result = await client.getAllContacts(phonebooksConfig[i].user);
                 if (result.status == 200) {
                     const book = new YealinkPhoneBook(phonebooksConfig[i].phonebookName);
-                    book.addContacts(result.data.value);
+                    book.addContacts(this.filterInvalidContacts(result.data.value));
                     const bookStr = book.generate();
                     writeFileSync(`./remote_phone_books/${phonebooksConfig[i].phonebookFile}`, bookStr);
                     console.info(`phone book updated for ${phonebooksConfig[i].user}`);
@@ -51,6 +52,17 @@ export class Main {
         setTimeout(() => {
             this.start(client);
         }, refresh);
+    }
+
+    private filterInvalidContacts(contacts: Contact[]): Contact[] {
+        return contacts.filter((contact) => {
+            // should have phone number
+            let mobileCheck = contact.mobilePhone != null;
+            let homeCheck = contact.homePhones != null && contact.homePhones.length > 0;
+            let businessCheck = contact.businessPhones != null && contact.businessPhones.length > 0;
+
+            return mobileCheck || homeCheck || businessCheck;
+        });
     }
 }
 
