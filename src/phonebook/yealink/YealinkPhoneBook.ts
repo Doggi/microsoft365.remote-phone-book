@@ -37,6 +37,8 @@ export class YealinkPhoneBook implements PhoneBook {
 
     generate(): string {
         const xmlRoot = xmlBuilder.create("XXXIPPhoneDirectory");
+        xmlRoot.dec("1.0", "UTF-8");
+
         xmlRoot.ele("Title", this.name);
         xmlRoot.ele("Prompt", `Prompt from ${this.name}`);
 
