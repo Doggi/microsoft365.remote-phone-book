@@ -89,7 +89,11 @@ A phonebook entry as three attributes.
 
 **user:** is the userPrincipalName in the most cases its the email address  
 **phonebookName:** is the name of the phone book you can type what you want. In Yealink phone book will this used as the display phone book name.  
-**phonebookFile:** is the filename of the phonebook how the app will save it in the folder _remote_phone_books_ and how you can access it over http
+**phonebookFile:** is the filename of the phonebook how the app will save it in the folder _remote_phone_books_ and how you can access it over http  
+**phonebookType:** (optional) is the type of phonebook that will be use. Currently the following phonebooks implemented:
+
+-   YealinkPhoneBook (default value)
+-   YealinkPhoneBookWithType
 
 ```javascript
 ...
@@ -103,6 +107,7 @@ A phonebook entry as three attributes.
         "user": "example2@mail.com",
         "phonebookName": "Example Phone book 2",
         "phonebookFile": "example_book_2.xml"
+        "phonebookType": "YealinkPhoneBook"
     }
 ]
 ...
