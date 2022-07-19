@@ -6,7 +6,7 @@ import moment from "moment";
 import { Client } from "./client/Client";
 import { Contact } from "./client/Contact";
 import { PhoneBook } from "./phonebook/PhoneBook";
-import { YealinkPhoneBook } from "./phonebook/yealink/YealinkPhoneBook/YealinkPhoneBook";
+import { YealinkPhoneBook } from "./phonebook/yealink/phonebookType/YealinkPhoneBook";
 import { YealinkPhoneBookWithType } from "./phonebook/yealink/YealinkPhoneBookWithType/YealinkPhoneBookWithType";
 
 export class Main {
