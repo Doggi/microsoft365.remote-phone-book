@@ -5,7 +5,9 @@ import { writeFileSync } from "fs";
 import moment from "moment";
 import { Client } from "./client/Client";
 import { Contact } from "./client/Contact";
-import { YealinkPhoneBook } from "./phonebook/yealink/YealinkPhoneBook";
+import { PhoneBook } from "./phonebook/PhoneBook";
+import { YealinkPhoneBook } from "./phonebook/yealink/YealinkPhoneBook/YealinkPhoneBook";
+import { YealinkPhoneBookWithType } from "./phonebook/yealink/YealinkPhoneBookWithType/YealinkPhoneBookWithType";
 
 export class Main {
     constructor() {
@@ -27,10 +29,12 @@ export class Main {
         const phonebooksConfig = config.get("phonebooks");
 
         for (let i in phonebooksConfig) {
+            const phonebookType = phonebooksConfig[i].phonebookType || "YealinkPhoneBook";
+
             try {
                 const result = await client.getAllContacts(phonebooksConfig[i].user);
                 if (result.status == 200) {
-                    const book = new YealinkPhoneBook(phonebooksConfig[i].phonebookName);
+                    const book = this.createPhoneBook(phonebookType, phonebooksConfig[i].phonebookName);
                     book.addContacts(this.filterInvalidContacts(result.data.value));
                     const bookStr = book.generate();
                     writeFileSync(`./remote_phone_books/${phonebooksConfig[i].phonebookFile}`, bookStr);
@@ -52,6 +56,20 @@ export class Main {
         setTimeout(() => {
             this.start(client);
         }, refresh);
+    }
+
+    private createPhoneBook(phonebookType: string, phonebookName: string): PhoneBook {
+        let book: PhoneBook;
+
+        if (phonebookType == "YealinkPhoneBook") {
+            book = new YealinkPhoneBook(phonebookName);
+        } else if (phonebookType == "YealinkPhoneBookWithType") {
+            book = new YealinkPhoneBookWithType(phonebookName);
+        } else {
+            throw new Error(`unknown phonebookType ${phonebookType} - please check the config`);
+        }
+
+        return book;
     }
 
     private filterInvalidContacts(contacts: Contact[]): Contact[] {

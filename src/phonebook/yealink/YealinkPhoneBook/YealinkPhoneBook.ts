@@ -1,6 +1,6 @@
 import * as xmlBuilder from "xmlbuilder";
-import { Contact } from "../../client/Contact";
-import { PhoneBook } from "../PhoneBook";
+import { Contact } from "../../../client/Contact";
+import { PhoneBook } from "../../PhoneBook";
 import { DirectoryEntry } from "./DirectoryEntry";
 
 export class YealinkPhoneBook implements PhoneBook {
@@ -36,7 +36,7 @@ export class YealinkPhoneBook implements PhoneBook {
     }
 
     generate(): string {
-        const xmlRoot = xmlBuilder.create("XXXIPPhoneDirectory");
+        const xmlRoot = xmlBuilder.create("M365IPPhoneDirectory");
         xmlRoot.dec("1.0", "UTF-8");
 
         xmlRoot.ele("Title", this.name);

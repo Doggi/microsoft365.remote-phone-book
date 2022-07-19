@@ -18,7 +18,8 @@
         {
             "user": "Enter_the_userPrincipalName_Here_its_the_mail_adress",
             "phonebookName": "Enter_the_Phonebook_Name_Here",
-            "phonebookFile": "Enter_the_Phonebook_File_Here"
+            "phonebookFile": "Enter_the_Phonebook_File_Here",
+            "phonebookType": "YealinkPhoneBook" (optional: default value YealinkPhoneBook)
         }
     ]
 }
