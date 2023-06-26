@@ -21,4 +21,4 @@ jobs:
       - run: npm install
       - run: npm run compile
       - run: ls -la dist
-      - run: cat dist/main.js
+      - run: cat dist/Main.js
