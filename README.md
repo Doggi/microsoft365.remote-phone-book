@@ -2,6 +2,8 @@
 
 This application creates remote phone books from Microsoft 365 contacts for use for IP phones
 
+[![Build](https://github.com/Doggi/microsoft365.remote-phone-book/actions/workflows/build.yml/badge.svg)](https://github.com/Doggi/microsoft365.remote-phone-book/actions/workflows/build.yml)
+
 ## Setup
 
 ### Install curl and git
