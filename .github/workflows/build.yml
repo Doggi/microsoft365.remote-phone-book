@@ -20,6 +20,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run compile
-      - run: cp config dist
+      - run: cp -r config dist
       - run: ls -la dist
       - run: cat dist/Main.js
