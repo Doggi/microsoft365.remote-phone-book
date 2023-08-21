@@ -32,17 +32,12 @@ export class Main {
             const phonebookType = phonebooksConfig[i].phonebookType || "YealinkPhoneBook";
 
             try {
-                
-                const result = await client.getAllContacts(phonebooksConfig[i].user);
-                if (result.status == 200) {
-                    const book = this.createPhoneBook(phonebookType, phonebooksConfig[i].phonebookName);
-                    book.addContacts(this.filterInvalidContacts(result.data.value));
-                    const bookStr = book.generate();
-                    writeFileSync(`./remote_phone_books/${phonebooksConfig[i].phonebookFile}`, bookStr);
-                    console.info(`phone book updated for ${phonebooksConfig[i].user} with ${book.size()} enties`);
-                } else {
-                    console.log("damm");
-                }
+                const contacts = await client.getAllContacts(phonebooksConfig[i].user);
+                const book = this.createPhoneBook(phonebookType, phonebooksConfig[i].phonebookName);
+                book.addContacts(this.filterInvalidContacts(contacts));
+                const bookStr = book.generate();
+                writeFileSync(`./remote_phone_books/${phonebooksConfig[i].phonebookFile}`, bookStr);
+                console.info(`phone book updated for ${phonebooksConfig[i].user} with ${book.size()} enties`);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     console.error(`${error.message} - ${phonebooksConfig[i].user}`);
@@ -79,8 +74,11 @@ export class Main {
             let mobileCheck = contact.mobilePhone != null;
             let homeCheck = contact.homePhones != null && contact.homePhones.length > 0;
             let businessCheck = contact.businessPhones != null && contact.businessPhones.length > 0;
+            // should have name
+            let displayNameCheck = contact.displayName != null && contact.displayName.length > 0;
+            let companyNameCheck = contact.companyName != null && contact.companyName.length > 0;
 
-            return mobileCheck || homeCheck || businessCheck;
+            return (mobileCheck || homeCheck || businessCheck) && (displayNameCheck || companyNameCheck);
         });
     }
 }

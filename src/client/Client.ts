@@ -1,6 +1,7 @@
 import { AuthenticationResult, ClientCredentialRequest, ConfidentialClientApplication } from "@azure/msal-node";
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance } from "axios";
 import moment from "moment";
+import { Contact } from "./Contact";
 import { ContactsResult } from "./ContactsResult";
 
 export class Client {
@@ -67,10 +68,22 @@ export class Client {
         console.log(data);
     }
 
-    public async getAllContacts(userId: string): Promise<AxiosResponse<ContactsResult>> {
+    public async getAllContacts(userId: string): Promise<Contact[]> {
         const authResponse = await this.getToken();
         const options = this.createAxiosOptions(authResponse);
-        return await this.client.get<ContactsResult>(`/users/${userId}/contacts`, options);
+        const baseUrl = `/users/${userId}/contacts`;
+
+        let contacts: Contact[] = [];
+        let repsonse;
+        let skip = 0;
+
+        do {
+            repsonse = (await this.client.get<ContactsResult>(`/users/${userId}/contacts?$skip=${skip}`, options)).data;
+            contacts = contacts.concat(repsonse.value);
+            skip += 10;
+        } while (repsonse["@odata.nextLink"] != null);
+
+        return contacts;
     }
 
     private createAxiosOptions(authResponse: AuthenticationResult | null): Object {
