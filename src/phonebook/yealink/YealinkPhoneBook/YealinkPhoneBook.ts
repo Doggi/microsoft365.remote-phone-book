@@ -21,8 +21,10 @@ export class YealinkPhoneBook implements PhoneBook {
             telephones.push(contact.mobilePhone);
         }
 
+        let name = contact.displayName ? contact.displayName : contact.companyName;
+
         const entry = {
-            name: contact.displayName,
+            name: name,
             telephone: telephones,
         };
 
@@ -36,6 +38,8 @@ export class YealinkPhoneBook implements PhoneBook {
     }
 
     generate(): string {
+        this.entries.sort((a, b) => a.name.localeCompare(b.name));
+
         const xmlRoot = xmlBuilder.create("M365IPPhoneDirectory");
         xmlRoot.dec("1.0", "UTF-8");
 
