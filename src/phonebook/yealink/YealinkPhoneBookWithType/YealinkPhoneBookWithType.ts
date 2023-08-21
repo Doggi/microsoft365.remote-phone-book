@@ -69,4 +69,8 @@ export class YealinkPhoneBookWithType implements PhoneBook {
 
         return xmlRoot.end({ pretty: true });
     }
+
+    size(): number {
+        return this.entries.length;
+    }
 }

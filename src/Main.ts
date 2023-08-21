@@ -32,13 +32,14 @@ export class Main {
             const phonebookType = phonebooksConfig[i].phonebookType || "YealinkPhoneBook";
 
             try {
+                
                 const result = await client.getAllContacts(phonebooksConfig[i].user);
                 if (result.status == 200) {
                     const book = this.createPhoneBook(phonebookType, phonebooksConfig[i].phonebookName);
                     book.addContacts(this.filterInvalidContacts(result.data.value));
                     const bookStr = book.generate();
                     writeFileSync(`./remote_phone_books/${phonebooksConfig[i].phonebookFile}`, bookStr);
-                    console.info(`phone book updated for ${phonebooksConfig[i].user}`);
+                    console.info(`phone book updated for ${phonebooksConfig[i].user} with ${book.size()} enties`);
                 } else {
                     console.log("damm");
                 }
